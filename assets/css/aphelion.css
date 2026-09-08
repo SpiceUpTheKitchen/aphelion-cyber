@@ -427,8 +427,8 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
 .lockup__word{
   display:block;flex:none;height:16px;width:calc(16px * 1348 / 256);
   background:currentColor;color:var(--ink);
-  -webkit-mask:url(/assets/img/wordmark.svg) no-repeat center / contain;
-  mask:url(/assets/img/wordmark.svg) no-repeat center / contain;
+  -webkit-mask:url(/aphelion-cyber/assets/img/wordmark.svg) no-repeat center / contain;
+  mask:url(/aphelion-cyber/assets/img/wordmark.svg) no-repeat center / contain;
 }
 .nav__links{display:flex;align-items:center;gap:6px;margin-left:auto}
 .nav__link{
