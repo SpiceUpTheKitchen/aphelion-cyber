@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Network Architecture Review Services | Segmentation</title>
+<meta name="description" content="Network architecture review services: segmentation tested against what actually passes, firewall and routing analysis, and Zero Trust access path design.">
+<meta name="theme-color" content="#0A0710">
+<link rel="canonical" href="https://aphelioncyber.com/network-architecture-review/">
+<meta property="og:site_name" content="Aphelion Cyber">
+<meta property="og:title" content="Network Architecture Review Services | Segmentation">
+<meta property="og:description" content="Network architecture review services: segmentation tested against what actually passes, firewall and routing analysis, and Zero Trust access path design.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://aphelioncyber.com/network-architecture-review/">
+<meta property="og:image" content="https://aphelioncyber.com/assets/img/aphelion-emblem.png">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Network Architecture Review Services | Segmentation">
+<meta name="twitter:description" content="Network architecture review services: segmentation tested against what actually passes, firewall and routing analysis, and Zero Trust access path design.">
+<meta name="twitter:image" content="https://aphelioncyber.com/assets/img/aphelion-emblem.png">
+<link rel="icon" type="image/png" href="/assets/img/aphelion-emblem.png">
+<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/css/aphelion.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://aphelioncyber.com/#organization",
+      "name": "Aphelion Cyber",
+      "legalName": "AphelionCyber Private Limited",
+      "url": "https://aphelioncyber.com/",
+      "logo": "https://aphelioncyber.com/assets/img/aphelion-emblem.png",
+      "image": "https://aphelioncyber.com/assets/img/aphelion-emblem.png",
+      "foundingDate": "2024",
+      "slogan": "Innovate. Defend. Thrive.",
+      "description": "Aphelion Cyber is a cybersecurity consultancy and platform company in Ahmedabad and Sharjah, delivering managed detection and response, VAPT, identity attack-path analysis and compliance automation.",
+      "email": "secure@aphelioncyber.com",
+      "telephone": "+91-70160-88075",
+      "knowsAbout": ["Penetration testing", "Managed detection and response", "ISO 27001", "SOC 2", "GDPR", "HIPAA", "Digital Personal Data Protection Act 2023", "Identity and access management", "OT and ICS security"],
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "email": "secure@aphelioncyber.com",
+        "telephone": "+91-70160-88075",
+        "areaServed": ["IN", "AE"],
+        "availableLanguage": ["en", "hi", "gu"]
+      }],
+      "location": [
+        {"@id": "https://aphelioncyber.com/#office-ahmedabad"},
+        {"@id": "https://aphelioncyber.com/#office-sharjah"}
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://aphelioncyber.com/#office-ahmedabad",
+      "name": "Aphelion Cyber — Ahmedabad",
+      "parentOrganization": {"@id": "https://aphelioncyber.com/#organization"},
+      "url": "https://aphelioncyber.com/contact/",
+      "image": "https://aphelioncyber.com/assets/img/aphelion-emblem.png",
+      "email": "secure@aphelioncyber.com",
+      "telephone": "+91-70160-88075",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "203 Shanti Mall, Sattadhar Cross Road",
+        "addressLocality": "Ahmedabad",
+        "addressRegion": "Gujarat",
+        "postalCode": "380081",
+        "addressCountry": "IN"
+      },
+      "areaServed": "IN"
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://aphelioncyber.com/#office-sharjah",
+      "name": "Aphelion Cyber — Sharjah",
+      "parentOrganization": {"@id": "https://aphelioncyber.com/#organization"},
+      "url": "https://aphelioncyber.com/contact/",
+      "image": "https://aphelioncyber.com/assets/img/aphelion-emblem.png",
+      "email": "secure@aphelioncyber.com",
+      "telephone": "+91-70160-88075",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Sharjah Media City, Al Messaned, Al Bataeh",
+        "addressLocality": "Sharjah",
+        "addressCountry": "AE"
+      },
+      "areaServed": "AE"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://aphelioncyber.com/#website",
+      "url": "https://aphelioncyber.com/",
+      "name": "Aphelion Cyber",
+      "publisher": {"@id": "https://aphelioncyber.com/#organization"},
+      "inLanguage": "en-IN"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","@id":"https://aphelioncyber.com/network-architecture-review/#service",
+ "name":"Network Architecture Review Services | Segmentation","serviceType":"network architecture review services",
+ "description":"Network architecture review services: segmentation tested against what actually passes, firewall and routing analysis, and Zero Trust access path design.",
+ "url":"https://aphelioncyber.com/network-architecture-review/",
+ "provider":{"@id":"https://aphelioncyber.com/#organization"},
+ "areaServed":[{"@type":"Country","name":"India"},{"@type":"Country","name":"United Arab Emirates"}],
+ "audience":{"@type":"BusinessAudience","name":"Mid-market and regulated organisations"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"Do you need our network diagrams?","acceptedAnswer":{"@type":"Answer","text":"Send whatever you have, and expect it to be incomplete — that is normal and it is part of what we are here to fix. We work primarily from device configurations, routing tables and rule bases, which cannot be out of date because they are what the network is running. The reconciled diagram we produce is frequently one of the more useful deliverables."}},
+  {"@type":"Question","name":"Is this the same as a penetration test?","acceptedAnswer":{"@type":"Answer","text":"No, and they answer different questions. A penetration test attempts to exploit what exists. An architecture review examines the design that decides what exploitation reaches — segmentation, trust boundaries, access paths and rule bases — including parts of the estate that no test would touch. Reviews find structural issues; tests prove specific ones. Together they give you both the map and the proof."}},
+  {"@type":"Question","name":"Will you make changes to our firewalls?","acceptedAnswer":{"@type":"Answer","text":"Not without a separate, explicit engagement. The review is read-only by default: we analyse configuration and, where segmentation testing is in scope, we attempt to cross boundaries from agreed positions with no change to any device. Implementation of the recommendations is a distinct piece of work that some clients ask us to support and most do themselves."}},
+  {"@type":"Question","name":"How do you verify segmentation without disrupting anything?","acceptedAnswer":{"@type":"Answer","text":"By attempting to reach things from agreed positions, which generates connection attempts and nothing more. Test hosts are placed in the zones in scope, and we enumerate what actually responds in the others. It is non-destructive by construction, it runs in an agreed window, and the resulting matrix of intended versus actual reachability is the most-read table in the report."}},
+  {"@type":"Question","name":"How often should we review the architecture?","acceptedAnswer":{"@type":"Answer","text":"Every two to three years for a stable estate, and immediately after anything structural: a data-centre move, a cloud migration, an acquisition, a significant merger of networks, or an incident that revealed the segmentation did not hold. Firewall rule-base review benefits from a shorter cycle — annually — because that is where drift accumulates fastest and where the cleanup is most straightforward."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":"https://aphelioncyber.com/"},
+  {"@type":"ListItem","position":2,"name":"Services","item":"https://aphelioncyber.com/services/"},
+  {"@type":"ListItem","position":3,"name":"Network architecture review: the diagram, and the traffic.","item":"https://aphelioncyber.com/network-architecture-review/"}
+]}
+</script></head>
+
+<body>
+<!-- The boot screen sits OVER rendered HTML — it never hides <body>, so a
+     script failure cannot leave a blank page. site.js clears it. -->
+<div class="boot" id="boot" aria-hidden="true">
+  <img class="boot__mark" src="/assets/img/aphelion-emblem.png" alt="" width="247" height="297">
+  <span class="boot__bar"><i></i></span>
+</div>
+
+<a class="skip" href="#main">Skip to content</a>
+<!-- ============================================================ NAV
+     Rendered by build.js into every page. Never edit a built page's nav —
+     edit this file and run `node build.js`. All 31 services appear here. -->
+<header class="nav" role="banner">
+  <div class="wrap nav__inner">
+    <a class="lockup" href="/" aria-label="Aphelion Cyber — home">
+      <img class="lockup__emblem" src="/assets/img/aphelion-emblem.png" alt="" width="247" height="297">
+      <span class="lockup__word"></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="/platform/">Platform</a>
+      <button class="nav__link" type="button" data-menu="services">Services <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+      <button class="nav__link" type="button" data-menu="company">Company <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+      <a class="btn btn--ghost btn--small nav__cta" href="/contact/">Talk to us</a>
+    </nav>
+
+    <button class="nav__burger" type="button" aria-label="Open menu" aria-controls="drawer"><span></span><span></span><span></span></button>
+  </div>
+  <span class="nav__progress" aria-hidden="true"><i></i></span>
+
+  <div class="menu" data-menu-for="services">
+    <div class="wrap menu__grid">
+      <div class="menu__col"><h4>Strategy &amp; Governance</h4><ul>
+        <li><a href="/strategy-governance/">Strategy &amp; Governance</a></li>
+        <li><a href="/vciso/">Virtual CISO</a></li>
+      </ul>
+      <h4 class="mt-5">Everything</h4><ul>
+        <li><a href="/services/">All 31 services</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Managed Security</h4><ul>
+        <li><a href="/managed-security-operation-center/">Managed SOC</a></li>
+        <li><a href="/incident-response/">Incident Response</a></li>
+        <li><a href="/deep-web-monitoring/">Deep Web Monitoring</a></li>
+        <li><a href="/identity-access-management/">Identity &amp; Access Management</a></li>
+        <li><a href="/third-party-risk-management/">Third-Party Risk Management</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Cyber Defense</h4><ul>
+        <li><a href="/vapt/">VAPT</a></li>
+        <li><a href="/red-teaming/">Red Teaming</a></li>
+        <li><a href="/website-app-security-testing/">Web App Security Testing</a></li>
+        <li><a href="/mobile-app-security-testing/">Mobile App Security Testing</a></li>
+        <li><a href="/api-security-assessment/">API Security Assessment</a></li>
+        <li><a href="/wireless-device-security-testing/">Wireless Security Testing</a></li>
+        <li><a href="/cloud-security-testing/">Cloud Security Testing</a></li>
+        <li><a href="/source-code-security-review/">Source Code Review</a></li>
+        <li><a href="/ot-iot-security/">OT / IoT Security</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Governance, Risk &amp; Compliance</h4><ul>
+        <li><a href="/iso-27001-2022/">ISO 27001:2022</a></li>
+        <li><a href="/iso-27017/">ISO 27017</a></li>
+        <li><a href="/iso-27018/">ISO 27018</a></li>
+        <li><a href="/iso-27701/">ISO 27701</a></li>
+        <li><a href="/soc-2/">SOC 2</a></li>
+        <li><a href="/gdpr/">GDPR</a></li>
+        <li><a href="/hipaa/">HIPAA</a></li>
+        <li><a href="/dpdp/">DPDP Act</a></li>
+        <li><a href="/it-general-control-audit/">ITGC Audit</a></li>
+        <li><a href="/third-party-vendor-audit-services/">Third-Party Vendor Audit</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Operations &amp; People</h4><ul>
+        <li><a href="/network-architecture-review/">Network Architecture Review</a></li>
+        <li><a href="/brand-exploitation/">Brand Exploitation</a></li>
+        <li><a href="/phishing-simulation/">Phishing Simulation</a></li>
+        <li><a href="/employee-awareness-training/">Employee Awareness Training</a></li>
+        <li><a href="/cybersecurity-staff-augmentation/">Staff Augmentation</a></li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="menu menu--narrow" data-menu-for="company">
+    <div class="wrap menu__grid">
+      <div class="menu__col"><h4>Company</h4><ul>
+        <li><a href="/about/">About Aphelion</a></li>
+        <li><a href="/careers/">Careers</a></li>
+        <li><a href="/resources/">Resources</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Offices</h4><ul>
+        <li><a href="/contact/">Ahmedabad, Gujarat</a></li>
+        <li><a href="/contact/">Sharjah, UAE</a></li>
+      </ul></div>
+      <div class="menu__col"><h4>Reach us</h4><ul>
+        <li><a href="mailto:secure@aphelioncyber.com">secure@aphelioncyber.com</a></li>
+        <li><a href="tel:+917016088075">+91 70160 88075</a></li>
+      </ul></div>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <ul><li><a href="/platform/">Platform</a></li><li><a href="/services/">All services</a></li><li><a href="/about/">About</a></li><li><a href="/careers/">Careers</a></li><li><a href="/resources/">Resources</a></li></ul>
+  <h4>Strategy &amp; Governance</h4>
+  <ul><li><a href="/strategy-governance/">Strategy &amp; Governance</a></li><li><a href="/vciso/">Virtual CISO</a></li></ul>
+  <h4>Managed Security</h4>
+  <ul><li><a href="/managed-security-operation-center/">Managed SOC</a></li><li><a href="/incident-response/">Incident Response</a></li><li><a href="/deep-web-monitoring/">Deep Web Monitoring</a></li><li><a href="/identity-access-management/">Identity &amp; Access Management</a></li><li><a href="/third-party-risk-management/">Third-Party Risk Management</a></li></ul>
+  <h4>Cyber Defense</h4>
+  <ul><li><a href="/vapt/">VAPT</a></li><li><a href="/red-teaming/">Red Teaming</a></li><li><a href="/website-app-security-testing/">Web App Security Testing</a></li><li><a href="/mobile-app-security-testing/">Mobile App Security Testing</a></li><li><a href="/api-security-assessment/">API Security Assessment</a></li><li><a href="/wireless-device-security-testing/">Wireless Security Testing</a></li><li><a href="/cloud-security-testing/">Cloud Security Testing</a></li><li><a href="/source-code-security-review/">Source Code Review</a></li><li><a href="/ot-iot-security/">OT / IoT Security</a></li></ul>
+  <h4>Governance, Risk &amp; Compliance</h4>
+  <ul><li><a href="/iso-27001-2022/">ISO 27001:2022</a></li><li><a href="/iso-27017/">ISO 27017</a></li><li><a href="/iso-27018/">ISO 27018</a></li><li><a href="/iso-27701/">ISO 27701</a></li><li><a href="/soc-2/">SOC 2</a></li><li><a href="/gdpr/">GDPR</a></li><li><a href="/hipaa/">HIPAA</a></li><li><a href="/dpdp/">DPDP Act</a></li><li><a href="/it-general-control-audit/">ITGC Audit</a></li><li><a href="/third-party-vendor-audit-services/">Third-Party Vendor Audit</a></li></ul>
+  <h4>Operations &amp; People</h4>
+  <ul><li><a href="/network-architecture-review/">Network Architecture Review</a></li><li><a href="/brand-exploitation/">Brand Exploitation</a></li><li><a href="/phishing-simulation/">Phishing Simulation</a></li><li><a href="/employee-awareness-training/">Employee Awareness Training</a></li><li><a href="/cybersecurity-staff-augmentation/">Staff Augmentation</a></li></ul>
+  <a class="btn btn--primary" href="/contact/">Talk to us</a>
+</div>
+
+
+<main id="main">
+<!-- ============================================================ SERVICE PAGE
+     One template, thirty-one pages. Every  is filled by build.js from
+     a single entry in content/services.js. Do not hand-edit a built page —
+     edit the entry, or this file, and run `node build.js`. -->
+
+<!-- ---------------------------------------------------------- PAGE HEAD -->
+<section class="section section--tight page-head" aria-labelledby="page-title">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><a href="/services/">Services</a><span aria-hidden="true">/</span><span aria-current="page">Network Architecture Review Services | Segmentation</span>
+    </nav>
+    <p class="eyebrow" data-reveal>Operations &amp; People</p>
+    <h1 id="page-title" data-reveal>Network architecture review: the diagram, <em>and the traffic.</em></h1>
+    <div class="page-head__body">
+      <div class="page-head__intro" data-reveal><p class="lede">Network architecture review services are worth buying for one finding you can rely on getting: the network as documented and the network as running are not the same, and the difference is where an intrusion travels. Every estate accumulates a temporary rule from four years ago that nobody dares delete.</p>
+      <p class="measure">We review the design and then test it. Firewall and routing configuration analysed rule by rule, segmentation verified by attempting to cross it, remote access and management paths mapped, and the flows that actually exist between zones compared against the ones the architecture claims. The output is what passes, not what the policy says should.</p>
+      <p class="measure">The review also looks forward. Where the estate is being modernised, this is the point to design segmentation, Zero Trust access and hybrid cloud connectivity deliberately rather than accreting it. Where the environment includes industrial systems, continue into <a href="/ot-iot-security/">OT and IoT security</a>; where identity is the real boundary, <a href="/identity-access-management/">identity and access management</a>.</p></div>
+      <aside class="page-head__side" data-reveal aria-label="On this page">
+        <p class="tiny">On this page</p>
+        <ul>
+          <li><a href="#why">Why you need it</a></li>
+          <li><a href="#instrument">Try it yourself</a></li>
+          <li><a href="#solutions">What we deliver</a></li>
+          <li><a href="#process">How we run it</a></li>
+          <li><a href="#tools">Tools we use</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ul>
+        <a class="btn btn--primary btn--small" href="/contact/">Talk to an engineer</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- WHY YOU NEED IT -->
+<section class="section" id="why" aria-labelledby="why-need-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Why you need it</p>
+      <span class="sec-head__index">01 / 06</span>
+      <h2 id="why-need-title">Why the architecture is the control.</h2>
+    </div>
+    <div class="pillars" data-reveal-group><article class="pillar" data-reveal>
+        <span class="pillar__n">01</span>
+        <h3>Segmentation is what limits an incident.</h3>
+        <p>Once an attacker has a foothold, everything that follows is a question of reachability. A flat network turns one compromised laptop into an estate-wide event; a segmented one turns it into a contained incident. No detection tool substitutes for this.</p>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">02</span>
+        <h3>Firewall rule bases decay.</h3>
+        <p>Rules are added for a project and never removed, "any-any" appears as a temporary fix and becomes permanent, and objects outlive the servers they described. After a few years the rule base permits considerably more than anyone intends, and nobody can safely tell which rules are load-bearing.</p>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">03</span>
+        <h3>Management paths are the quiet risk.</h3>
+        <p>Switch, firewall, hypervisor and out-of-band management interfaces reachable from the user network are the shortest route from an ordinary workstation to total control of the infrastructure — and they are rarely on anyone's list.</p>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">04</span>
+        <h3>Hybrid connectivity was built incrementally.</h3>
+        <p>A VPN to one cloud, a peering link to another, a partner connection, a site-to-site tunnel for an acquisition. Each was reasonable; together they frequently create paths between environments that no one has ever drawn on a single diagram.</p>
+      </article></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- THE INSTRUMENT -->
+<section class="section" id="instrument" aria-labelledby="instrument-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Instrument</p>
+      <span class="sec-head__index">02 / 06</span>
+      <h2 id="instrument-title">What one compromised workstation reaches.</h2>
+      <p class="lede">Toggle a single permitted path and watch the reachable set expand. This is the entire argument for segmentation, drawn rather than asserted.</p>
+    </div>
+    <div data-reveal><div data-artifact="blast-radius"></div></div>
+    <div data-reveal><div data-artifact="attack-path" data-config='{"title":"From foothold to Tier-0"}'></div></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- SOLUTIONS -->
+<section class="section" id="solutions" aria-labelledby="solutions-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">What we deliver</p>
+      <span class="sec-head__index">03 / 06</span>
+      <h2 id="solutions-title">What the review covers.</h2>
+    </div>
+    <div class="solutions" data-reveal-group><article class="solution" data-reveal>
+        <span class="solution__n">01</span>
+        <h3>Security assessment of the design</h3>
+        <p>The architecture evaluated against defence in depth and least privilege: trust zones and the boundaries between them, ingress and egress control, exposed services, and whether a compromise in any one zone is contained by design or merely by luck.</p>
+      </article>
+      <article class="solution" data-reveal>
+        <span class="solution__n">02</span>
+        <h3>Firewall and routing analysis</h3>
+        <p>Rule-base review for overly permissive, shadowed, redundant and unused rules; routing and VLAN configuration; network address translation; and the access control lists that were meant to enforce a boundary the firewall does not see.</p>
+      </article>
+      <article class="solution" data-reveal>
+        <span class="solution__n">03</span>
+        <h3>Segmentation verification</h3>
+        <p>Testing rather than reading. From a host in each zone, what can actually be reached in the others — including the management network, the backup network, the OT network and the guest network. The gap between the intended and actual matrix is the deliverable.</p>
+      </article>
+      <article class="solution" data-reveal>
+        <span class="solution__n">04</span>
+        <h3>Remote and privileged access paths</h3>
+        <p>VPN configuration and split tunnelling, jump hosts and bastion design, vendor and third-party connections, out-of-band management, and every route by which an administrator — or someone holding their credentials — reaches the infrastructure.</p>
+      </article>
+      <article class="solution" data-reveal>
+        <span class="solution__n">05</span>
+        <h3>Resilience and recovery design</h3>
+        <p>Single points of failure, redundancy that has actually been tested, backup network isolation from the production domain, and whether the recovery plan depends on infrastructure that would itself be unavailable in the scenario it is written for.</p>
+      </article>
+      <article class="solution" data-reveal>
+        <span class="solution__n">06</span>
+        <h3>Scalability and target design</h3>
+        <p>Where the review supports a modernisation: a target architecture with segmentation model, access design and cloud connectivity, sequenced into changes that can be delivered without a maintenance window that never comes.</p>
+      </article></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- PROCESS -->
+<section class="section" id="process" aria-labelledby="process-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">How we run it</p>
+      <span class="sec-head__index">04 / 06</span>
+      <h2 id="process-title">Five steps.</h2>
+    </div>
+    <ol class="process" data-reveal-group><li class="step" data-reveal>
+        <span class="step__n">01</span>
+        <div class="step__b"><h3>Define objectives and scope</h3><p>What the review is for — a security assessment, a modernisation, a compliance requirement or a post-incident review — and which sites, environments and connections are in scope. The objective changes what we look at hardest.</p><span class="step__when">Week 1</span></div>
+      </li>
+      <li class="step" data-reveal>
+        <span class="step__n">02</span>
+        <div class="step__b"><h3>Gather and analyse current architecture</h3><p>Diagrams, device configurations, rule bases, routing tables and documentation, plus interviews. We assume the documentation is incomplete, because it always is, and reconcile it against what the configurations actually say.</p><span class="step__when">Weeks 1–2</span></div>
+      </li>
+      <li class="step" data-reveal>
+        <span class="step__n">03</span>
+        <div class="step__b"><h3>Identify and assess risks</h3><p>Segmentation gaps, permissive rules, exposed management interfaces, unmonitored paths and single points of failure — each rated by what it enables rather than by how it scores in isolation.</p><span class="step__when">Weeks 2–3</span></div>
+      </li>
+      <li class="step" data-reveal>
+        <span class="step__n">04</span>
+        <div class="step__b"><h3>Review components and verify</h3><p>Firewalls, routers, switches, load balancers and VPN concentrators reviewed against hardening baselines, and the boundaries tested from inside each zone to establish what genuinely passes.</p><span class="step__when">Weeks 3–4</span></div>
+      </li>
+      <li class="step" data-reveal>
+        <span class="step__n">05</span>
+        <div class="step__b"><h3>Recommend improvements</h3><p>A prioritised remediation plan and, where in scope, a target architecture — sequenced so that the highest-value changes can be made without waiting for a redesign, with the rules identified as safely removable listed explicitly.</p><span class="step__when">Week 5</span></div>
+      </li></ol>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- BENEFITS -->
+<section class="section" aria-labelledby="benefits-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Key benefits</p>
+      <span class="sec-head__index">05 / 06</span>
+      <h2 id="benefits-title">What changes after.</h2>
+    </div>
+    <div class="benefits" data-reveal-group><article class="benefit" data-reveal>
+        <h3>You have an accurate diagram</h3><p>Reconciled against live configuration and verified by testing, including the connections and rules that were not on the previous version.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <h3>The blast radius is bounded</h3><p>Segmentation proved by attempting to cross it, so containment is a tested property of the network rather than an assumption in an incident response plan.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <h3>The rule base gets smaller</h3><p>Shadowed, redundant and unused rules identified so they can be removed safely — which improves both security and the performance of the device enforcing them.</p>
+      </article></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- TOOLS -->
+<section class="section" id="tools" aria-labelledby="tools-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Tools we use</p>
+      <span class="sec-head__index">06 / 06</span>
+      <h2 id="tools-title">Named, and used on your engagement.</h2>
+      <p class="lede">No “latest tech tools”. These are the ones your report will cite, alongside the manual work that a tool cannot do for you.</p>
+    </div>
+    <div class="tools" data-reveal-group><div class="tool-group" data-reveal>
+        <p class="tiny">Configuration analysis</p>
+        <ul><li>Nipper</li><li>Firewall rule-base analysis</li><li>CIS Benchmarks</li><li>Batfish</li></ul>
+      </div>
+      <div class="tool-group" data-reveal>
+        <p class="tiny">Discovery and verification</p>
+        <ul><li>Nmap</li><li>Zeek</li><li>Wireshark</li><li>Responder</li></ul>
+      </div>
+      <div class="tool-group" data-reveal>
+        <p class="tiny">Path and reachability</p>
+        <ul><li>Segmentation test matrix</li><li>Traceroute and path analysis</li><li>BloodHound</li></ul>
+      </div>
+      <div class="tool-group" data-reveal>
+        <p class="tiny">Cloud connectivity</p>
+        <ul><li>Prowler</li><li>ScoutSuite</li><li>Cloud route and peering review</li></ul>
+      </div>
+      <div class="tool-group" data-reveal>
+        <p class="tiny">Reference models</p>
+        <ul><li>NIST SP 800-207 (Zero Trust)</li><li>Purdue Enterprise Reference Architecture</li><li>ISO 27001:2022 Annex A.8</li></ul>
+      </div></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- FOLDED-IN SERVICES -->
+<section class="section" id="security-architecture" aria-labelledby="security-architecture-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-head__title">
+        <p class="eyebrow">Included in this service</p>
+        <h2 id="security-architecture-title">Security architecture</h2>
+      </div>
+      <span class="sec-head__index">Also</span>
+    </div>
+    <div class="fold" data-reveal><p class="measure">A review tells you what is wrong with what exists. Security architecture is the design work that decides what should exist — and it is considerably cheaper applied before a migration, a data-centre move or a major platform change than retrofitted afterwards.</p>
+          <p class="measure">We design the security layer of the environment: trust zones and the boundaries between them, identity and access as a first-class design element rather than an afterthought, data classification driving where controls sit, logging and monitoring designed in so that visibility is not a later project, and resilience patterns that survive the failure modes you actually face.</p>
+          <p class="measure">The deliverable is a reference architecture with design principles, patterns your teams can apply without asking, and a sequenced transition from the current state. Principles matter more than diagrams here: a team that knows why the boundary is where it is will make the right call on the next change, which no diagram can do.</p></div>
+  </div>
+</section>
+<section class="section" id="zero-trust" aria-labelledby="zero-trust-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-head__title">
+        <p class="eyebrow">Included in this service</p>
+        <h2 id="zero-trust-title">Zero Trust</h2>
+      </div>
+      <span class="sec-head__index">Also</span>
+    </div>
+    <div class="fold" data-reveal><p class="measure">Zero Trust is a design principle with an unfortunate amount of marketing attached. The principle is simple and correct: network location grants no trust, every request is verified on identity, device posture and context, and access is granted per resource and per session rather than per network segment.</p>
+          <p class="measure">The implementation is where organisations struggle, usually because it is attempted as an estate-wide programme. We deliver it incrementally against your highest-value systems — identity-aware access to critical applications first, then privileged administrative access, then progressive removal of the implicit trust the flat network grants — following NIST SP 800-207 rather than a vendor's definition.</p>
+          <p class="measure">Two honest caveats. Legacy applications that cannot authenticate per request need brokered access and compensating controls rather than a pretence of Zero Trust. And no product delivers it: your identity provider, device management and access proxy each contribute, and the design that joins them is the actual work.</p></div>
+  </div>
+</section>
+<section class="section" id="hybrid-cloud-security" aria-labelledby="hybrid-cloud-security-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="sec-head__title">
+        <p class="eyebrow">Included in this service</p>
+        <h2 id="hybrid-cloud-security-title">Hybrid cloud security</h2>
+      </div>
+      <span class="sec-head__index">Also</span>
+    </div>
+    <div class="fold" data-reveal><p class="measure">Almost nobody is fully in one place. The estate is a data centre, one or two clouds, a set of SaaS platforms and the connections between them — and the security model of each was designed independently, by different people, at different times.</p>
+          <p class="measure">We design and review the join: connectivity and its trust implications, identity federated consistently so that one directory governs access everywhere, consistent policy and control standards across environments, and logging that lands in one place so an incident can be followed across a boundary rather than stopping at it.</p>
+          <p class="measure">The finding that recurs is a cloud environment connected to the corporate network by a VPN that grants far more reachability than intended, giving a compromised cloud workload a direct path into the data centre. Establishing what each connection actually permits — in both directions — is usually the highest-value hour of the review.</p></div>
+  </div>
+</section>
+
+<!-- ============================================================ WHY CHOOSE US
+     One shared component. It used to be pasted, verbatim, onto twenty-eight
+     pages; now it lives here and nowhere else. -->
+<section class="section" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Why Aphelion</p>
+      <span class="sec-head__index">Shared</span>
+      <h2 id="why-title">Four things you can check.</h2>
+    </div>
+    <div class="pillars" data-reveal-group>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">01</span>
+        <h3>The work is done by people with names.</h3>
+        <p>Darshap Nayak, formerly of KPMG, holds a master’s degree in cybersecurity and more than seven years in security operations. Jaimin Somani brings fifteen-plus years of academic and hands-on VAPT. Hemang Desai is an ICT network specialist from Australia. You will meet them, not a logo.</p>
+        <a class="link link--mono" href="/about/">Meet the team</a>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">02</span>
+        <h3>Evidence, not adjectives.</h3>
+        <p>Every finding arrives with the reproduction steps, the affected asset and the fix — ranked by what it actually reaches in your environment, not by a CVSS number copied from a scanner. You get the report and the raw output, not a summary of a summary.</p>
+        <a class="link link--mono" href="/vapt/">See how we test</a>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">03</span>
+        <h3>Two offices, one practice.</h3>
+        <p>Ahmedabad and Sharjah, working the same methodology on the same tooling. Indian data-residency requirements and UAE delivery are both ordinary here, and the AphelioNYX platform runs entirely inside your perimeter when regulation says it must.</p>
+        <a class="link link--mono" href="/platform/">The platform</a>
+      </article>
+      <article class="pillar" data-reveal>
+        <span class="pillar__n">04</span>
+        <h3>What we will not do.</h3>
+        <p>Invent a statistic to make a slide land. Publish your name as a client without written permission. Print an award badge nobody awarded. Founded in 2024 — we say so, and we attribute experience to the people who have it.</p>
+        <a class="link link--mono" href="/contact/">Ask us anything</a>
+      </article>
+    </div>
+
+    <div class="trust mt-head">
+      <div data-reveal>
+        <p class="eyebrow eyebrow--bare">50+ organizations secured</p>
+        <p class="small mt-2">Across the globe, and across eight industries. Client marks appear on this rail with each client’s written permission, and not one moment before.</p>
+        <ul class="logo-rail" aria-label="Client logos, shown only with permission">
+          <li>Client logo</li><li>Client logo</li><li>Client logo</li><li>Client logo</li><li>Client logo</li><li>Client logo</li>
+        </ul>
+      </div>
+      <div data-reveal>
+        <ul class="rail" aria-label="Industries served">
+          <li>Finance &amp; Banking</li><li>Healthcare</li><li>Retail &amp; E-commerce</li><li>Technology</li><li>SaaS</li><li>Hospitality</li><li>Manufacturing</li><li>Pharmaceuticals</li>
+        </ul>
+        <p class="measure small mt-4">AphelioNYX is SOC 2, ISO and GDPR compliant; attestations are available on request under NDA. We would rather hand you the report than print a badge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ---------------------------------------------------------- FAQ -->
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Questions</p>
+      <span class="sec-head__index">FAQ</span>
+      <h2 id="faq-title">What clients ask about network reviews.</h2>
+    </div>
+    <div class="faq" data-reveal><details class="faq__item"><summary>Do you need our network diagrams?</summary><div class="faq__a">Send whatever you have, and expect it to be incomplete — that is normal and it is part of what we are here to fix. We work primarily from device configurations, routing tables and rule bases, which cannot be out of date because they are what the network is running. The reconciled diagram we produce is frequently one of the more useful deliverables.</div></details>
+      <details class="faq__item"><summary>Is this the same as a penetration test?</summary><div class="faq__a">No, and they answer different questions. A penetration test attempts to exploit what exists. An architecture review examines the design that decides what exploitation reaches — segmentation, trust boundaries, access paths and rule bases — including parts of the estate that no test would touch. Reviews find structural issues; tests prove specific ones. Together they give you both the map and the proof.</div></details>
+      <details class="faq__item"><summary>Will you make changes to our firewalls?</summary><div class="faq__a">Not without a separate, explicit engagement. The review is read-only by default: we analyse configuration and, where segmentation testing is in scope, we attempt to cross boundaries from agreed positions with no change to any device. Implementation of the recommendations is a distinct piece of work that some clients ask us to support and most do themselves.</div></details>
+      <details class="faq__item"><summary>How do you verify segmentation without disrupting anything?</summary><div class="faq__a">By attempting to reach things from agreed positions, which generates connection attempts and nothing more. Test hosts are placed in the zones in scope, and we enumerate what actually responds in the others. It is non-destructive by construction, it runs in an agreed window, and the resulting matrix of intended versus actual reachability is the most-read table in the report.</div></details>
+      <details class="faq__item"><summary>How often should we review the architecture?</summary><div class="faq__a">Every two to three years for a stable estate, and immediately after anything structural: a data-centre move, a cloud migration, an acquisition, a significant merger of networks, or an incident that revealed the segmentation did not hold. Firewall rule-base review benefits from a shorter cycle — annually — because that is where drift accumulates fastest and where the cleanup is most straightforward.</div></details></div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- RELATED -->
+<section class="section" aria-labelledby="related-title">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Next door</p>
+      <span class="sec-head__index">Related</span>
+      <h2 id="related-title">Services that usually travel with this one.</h2>
+    </div>
+    <div class="related" data-reveal-group><a class="rel" href="/ot-iot-security/" data-reveal><span class="rel__t">OT ICS Security Assessment India | SCADA & IoT Testing</span><span class="rel__go">Open</span></a>
+      <a class="rel" href="/identity-access-management/" data-reveal><span class="rel__t">Identity & Access Management Services India | IAM</span><span class="rel__go">Open</span></a>
+      <a class="rel" href="/cloud-security-testing/" data-reveal><span class="rel__t">Cloud Security Testing Services India | AWS, Azure, GCP</span><span class="rel__go">Open</span></a>
+      <a class="rel" href="/vapt/" data-reveal><span class="rel__t">VAPT Services India — Vulnerability Assessment & Pentest</span><span class="rel__go">Open</span></a></div>
+  </div>
+</section>
+<!-- ============================================================ CTA -->
+<section class="section" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta" data-reveal>
+      <div>
+        <h2 id="cta-title">Forty-five minutes. Your environment, not a slide deck.</h2>
+      </div>
+      <div class="cta__side">
+        <p>A personalised walkthrough and a free readiness assessment against the frameworks you are actually being asked for. We reply within one business day.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/contact/">Schedule a consultation</a>
+          <a class="btn btn--ghost" href="mailto:secure@aphelioncyber.com">secure@aphelioncyber.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+<!-- ============================================================ FOOTER
+     Rendered by build.js into every page. Edit here, then `node build.js`. -->
+<footer class="footer" role="contentinfo">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="lockup" href="/" aria-label="Aphelion Cyber — home">
+          <img class="lockup__emblem" src="/assets/img/aphelion-emblem.png" alt="" width="247" height="297">
+          <img class="lockup__word" src="/assets/img/wordmark.svg" alt="Aphelion Cyber" width="1348" height="256">
+        </a>
+        <p>Innovate. Defend. Thrive. A cybersecurity consultancy and platform company, founded in 2024, serving regulated and mid-market organisations from India and the UAE.</p>
+        <div class="office">
+          <b>Ahmedabad</b>
+          <address>203 Shanti Mall, Sattadhar Cross Road,<br>Ahmedabad, Gujarat 380081, India</address>
+          <span class="clock" data-clock="Asia/Kolkata"></span>
+        </div>
+        <div class="office">
+          <b>Sharjah</b>
+          <address>Sharjah Media City, Al Messaned,<br>Al Bataeh, Sharjah, UAE</address>
+          <span class="clock" data-clock="Asia/Dubai"></span>
+        </div>
+      </div>
+      <div>
+        <h4>Cyber Defense</h4>
+        <ul><li><a href="/vapt/">VAPT</a></li><li><a href="/red-teaming/">Red Teaming</a></li><li><a href="/website-app-security-testing/">Web App Testing</a></li><li><a href="/mobile-app-security-testing/">Mobile App Testing</a></li><li><a href="/api-security-assessment/">API Security</a></li><li><a href="/wireless-device-security-testing/">Wireless Testing</a></li><li><a href="/cloud-security-testing/">Cloud Security</a></li><li><a href="/source-code-security-review/">Source Code Review</a></li><li><a href="/ot-iot-security/">OT / IoT Security</a></li></ul>
+      </div>
+      <div>
+        <h4>Compliance</h4>
+        <ul><li><a href="/iso-27001-2022/">ISO 27001:2022</a></li><li><a href="/iso-27017/">ISO 27017</a></li><li><a href="/iso-27018/">ISO 27018</a></li><li><a href="/iso-27701/">ISO 27701</a></li><li><a href="/soc-2/">SOC 2</a></li><li><a href="/gdpr/">GDPR</a></li><li><a href="/hipaa/">HIPAA</a></li><li><a href="/dpdp/">DPDP Act</a></li><li><a href="/it-general-control-audit/">ITGC Audit</a></li><li><a href="/third-party-vendor-audit-services/">Vendor Audit</a></li></ul>
+      </div>
+      <div>
+        <h4>Managed &amp; Advisory</h4>
+        <ul><li><a href="/managed-security-operation-center/">Managed SOC</a></li><li><a href="/incident-response/">Incident Response</a></li><li><a href="/deep-web-monitoring/">Deep Web Monitoring</a></li><li><a href="/identity-access-management/">Identity &amp; Access</a></li><li><a href="/third-party-risk-management/">Third-Party Risk</a></li><li><a href="/network-architecture-review/">Network Architecture</a></li><li><a href="/brand-exploitation/">Brand Exploitation</a></li><li><a href="/phishing-simulation/">Phishing Simulation</a></li><li><a href="/employee-awareness-training/">Awareness Training</a></li><li><a href="/cybersecurity-staff-augmentation/">Staff Augmentation</a></li><li><a href="/vciso/">Virtual CISO</a></li><li><a href="/strategy-governance/">Strategy &amp; Governance</a></li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="/platform/">AphelioNYX Platform</a></li><li><a href="/services/">All services</a></li><li><a href="/about/">About</a></li><li><a href="/careers/">Careers</a></li><li><a href="/resources/">Resources</a></li><li><a href="/contact/">Contact</a></li><li><a href="mailto:secure@aphelioncyber.com">secure@aphelioncyber.com</a></li><li><a href="tel:+917016088075">+91 70160 88075</a></li></ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> AphelionCyber Private Limited</span>
+      <span><a href="/privacy/">Privacy</a> &nbsp;·&nbsp; <a href="/terms/">Terms</a> &nbsp;·&nbsp; <a href="/cookies/">Cookies</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA. The shell wraps this in a mobileCta block, which is false
+     for /contact/ in the PAGES array in build.js. Do not write a template tag in
+     this comment: it would survive the block substitution and reach the page. -->
+<div class="mcta" hidden>
+  <a class="mcta__call" href="tel:+917016088075"><span class="sr-only">Call Aphelion Cyber on </span>Call</a>
+  <a class="btn btn--primary mcta__main" href="/contact/">Talk to us</a>
+</div>
+
+<script src="/assets/js/hero.js" defer></script>
+<script src="/assets/js/cursor.js" defer></script>
+<script src="/assets/js/artifacts.js" defer></script>
+<script src="/assets/js/site.js" defer></script>
+
+</body>
+</html>

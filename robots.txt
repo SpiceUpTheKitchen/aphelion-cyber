@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /privacy/
+Disallow: /terms/
+Disallow: /cookies/
+
+Sitemap: https://aphelioncyber.com/sitemap.xml

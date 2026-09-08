@@ -1,0 +1,266 @@
+/* ==========================================================================
+   APHELIONYX — /platform/ only
+   assets/css/platform.css   loaded after aphelion.css, on this page alone
+
+   The product is not the practice, and it should not look like it. This file
+   does two things and nothing else:
+
+   1. Re-maps the existing design tokens to a light ground on `body.t-lite`.
+      No new tokens are introduced — every component in aphelion.css, every
+      artifact, and the nav all follow automatically, because they were built
+      on the variables rather than on the hex.
+   2. Adds the product-UI components that only exist here: the module frames,
+      the console mockups and the persistent way back to the practice.
+
+   Contrast note: #9D4EDD is a violet for dark grounds and fails as text on a
+   light one, so the text role moves down to #5B2478 (10.1:1 on #F5F2F9) and
+   #713191 keeps the surface role (8.0:1 against white). Cyan moves to #0E7490
+   for the same reason.
+   ========================================================================== */
+
+html{background:#EFEAF6}
+
+body.t-lite{
+  color-scheme:light;
+
+  /* ground — never pure white, for the same reason the void is never black.
+     Tinted toward the brand so the page reads as warm product, not clinical. */
+  --bg-void:#EFEAF6;
+  --bg-surface:#FAF8FD;
+  --bg-surface-2:#E7E0F0;
+  --bg-raised:#DCD2E9;
+
+  /* brand */
+  --brand-violet:#713191;
+  --brand-violet-bright:#5B2478;   /* every violet text role */
+  --brand-violet-deep:#3C1553;
+  --violet-tint:rgba(113,49,145,.08);
+  --violet-glow:rgba(113,49,145,.20);
+
+  /* telemetry */
+  --accent-cyan:#0E7490;
+
+  /* ink */
+  --ink:#160D20;
+  --ink-2:#3B2F4A;
+  --muted:#5E5270;
+  --faint:#877C96;
+
+  /* lines */
+  --line:rgba(113,49,145,.22);
+  --line-strong:rgba(113,49,145,.46);
+  --hair:rgba(60,21,83,.15);
+
+  /* severity — darkened until each passes AA on the light ground */
+  --sev-crit:#C41D45;
+  --sev-high:#9A4B06;
+  --sev-med:#7A6100;
+  --ok:#0B6E4A;
+
+  background:var(--bg-void);
+  color:var(--ink-2);
+}
+
+/* the grain reads as paper here rather than as film */
+body.t-lite::after{opacity:.42;mix-blend-mode:multiply}
+
+/* a fixed, very soft aurora behind everything — the page is never flat white */
+body.t-lite::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(70% 55% at 82% 4%,  rgba(157,78,221,.20), transparent 62%),
+    radial-gradient(60% 50% at 6% 30%,  rgba(113,49,145,.13), transparent 60%),
+    radial-gradient(80% 60% at 50% 104%, rgba(77,116,144,.10), transparent 62%);
+}
+
+/* the floating nav needs a light glass of its own */
+body.t-lite .nav{background:rgba(255,255,255,.55);box-shadow:0 10px 34px -22px rgba(22,13,32,.55)}
+body.t-lite .nav.is-scrolled,body.t-lite .nav.is-open{background:rgba(255,255,255,.86);box-shadow:0 16px 44px -24px rgba(22,13,32,.6)}
+body.t-lite .menu{background:#FFFFFF;box-shadow:0 30px 70px -34px rgba(22,13,32,.45)}
+body.t-lite .drawer{background:var(--bg-void)}
+body.t-lite .nav__burger span{background:var(--ink)}
+body.t-lite .btn--primary{--btn-fg:#FFFFFF}
+body.t-lite .btn:hover,body.t-lite .btn:focus-visible{color:#FFFFFF;border-color:var(--brand-violet)}
+body.t-lite .btn::after{background:var(--brand-violet)}
+body.t-lite .lockup__emblem,body.t-lite .lockup__word{filter:none}
+/* the wordmark is white vector art; on a light ground it needs inverting */
+body.t-lite .lockup__word{filter:invert(1) brightness(.16)}
+body.t-lite .skip{background:var(--ink);color:#fff}
+body.t-lite ::selection{background:var(--brand-violet);color:#fff}
+
+/* ---- the way back to the practice --------------------------------------
+   A persistent control, not a link buried in the footer: the platform is a
+   product with its own world and you must always be one click out of it.
+   It rides inside the floating nav bar's empty middle, and it travels with
+   the bar when the bar hides — it is a sibling of .nav, so `~` reaches it. */
+.back-home{
+  /* the lockup is emblem(25) + gap(12) + wordmark(84); the offset is derived
+     from that rather than guessed, so it can never crowd the mark again */
+  --lockup-w:122px;
+  position:fixed;z-index:calc(var(--z-nav) + 1);
+  top:calc(var(--nav-top) + (var(--nav-h) - 32px) / 2);
+  left:calc(max(16px,3vw) + clamp(14px,1.7vw,26px) + var(--lockup-w) + var(--s6));
+  height:32px;border-radius:var(--r-pill);
+  display:inline-flex;align-items:center;gap:9px;
+  padding:0 14px;background:rgba(255,255,255,.55);border:1px solid var(--hair);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  font-family:var(--font-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);
+  transition:color var(--t2),border-color var(--t2),transform var(--t2) var(--ease-out),background var(--t2);
+}
+.back-home u{text-decoration:none}
+.back-home i{font-style:normal;color:var(--brand-violet);transition:transform var(--t2) var(--ease-out)}
+.back-home:hover,.back-home:focus-visible{color:var(--ink);border-color:var(--line-strong);background:#fff}
+.back-home:hover i{transform:translateX(-3px)}
+.nav.is-hidden ~ .back-home{transform:translateY(calc(-100% - var(--nav-top) - 24px))}
+/* Below 900px it goes away rather than floating over the copy: the breadcrumb
+   at the top of the page reads "← Aphelion Cyber", and the nav lockup — which
+   returns on any upward scroll — is itself a link home. A fixed pill hovering
+   over body text is worse than either. */
+@media (max-width:900px){.back-home{display:none}}
+@media (prefers-reduced-motion: reduce){.nav.is-hidden ~ .back-home{transform:none}}
+
+/* ---- product hero ------------------------------------------------------- */
+.phero{padding-top:calc(var(--nav-top) + var(--nav-h) + clamp(72px,9vw,132px))}
+.phero__lockup{display:flex;align-items:center;gap:16px;margin-bottom:var(--s5)}
+.phero__lockup img{height:52px;width:auto}
+.phero__lockup span{font-family:var(--font-display);font-variation-settings:"wdth" 112;font-weight:800;font-size:1.9rem;letter-spacing:.005em;color:var(--ink)}
+.phero__lockup span i{font-style:normal;color:var(--brand-violet)}
+.phero h1{max-width:24ch}
+.phero h1 em{font-style:normal;color:var(--brand-violet)}
+.phero__body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap-block) var(--s6);margin-top:var(--gap-head);align-items:start}
+.phero__body > *:first-child{grid-column:1 / span 7}
+.phero__body > *:last-child{grid-column:9 / -1}
+.phero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--s5)}
+.phero__caps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:var(--r-3);overflow:hidden}
+.phero__cap{background:var(--bg-void);padding:var(--s4);display:flex;flex-direction:column;gap:5px}
+.phero__cap b{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-violet-bright)}
+.phero__cap span{font-size:var(--fs-1);color:var(--muted)}
+@media (max-width:1000px){.phero__body > *:first-child,.phero__body > *:last-child{grid-column:1 / -1}}
+
+/* ---- module sections ---------------------------------------------------- */
+.mod{position:relative;border-top:0}
+/* a gradient hairline instead of a flat rule, and a violet bloom behind the head */
+.mod::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg, transparent, var(--line-strong) 22%, var(--line-strong) 78%, transparent);
+}
+.mod::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:420px;z-index:-1;pointer-events:none;
+  background:radial-gradient(58% 100% at 14% 0%, rgba(157,78,221,.16), transparent 68%);
+}
+.mod__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap-block) var(--s6);align-items:start}
+.mod__grid > *{min-width:0}
+.mod__grid > *:first-child{grid-column:1 / span 5}
+.mod__grid > *:last-child{grid-column:7 / -1}
+.mod__facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4);margin-top:var(--s5)}
+.mod__fact{padding-top:var(--s3);border-top:1px solid var(--line-strong);display:flex;flex-direction:column;gap:5px}
+.mod__fact b{font-family:var(--font-display);font-variation-settings:"wdth" 112;font-size:1.6rem;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums}
+.mod__fact span{font-size:.84rem;color:var(--muted);line-height:1.4}
+.mod__list{display:flex;flex-direction:column;margin-top:var(--s5);border-top:1px solid var(--hair)}
+/* Two element children per item, always. An inline <a> left loose in here
+   becomes its own grid item in the 18px column and collides with the text —
+   that is the /platform/ overlap. The text span pins itself to column 2 so a
+   future stray inline element cannot bring the bug back. */
+.mod__list li{padding:11px 0;border-bottom:1px solid var(--hair);font-size:var(--fs-1);color:var(--ink-2);display:grid;grid-template-columns:18px 1fr;gap:12px;text-wrap:pretty}
+.mod__list li > span:first-child{grid-column:1;width:7px;height:7px;border-radius:2px;border:1px solid var(--brand-violet);margin-top:.55em}
+.mod__list li > *:not(:first-child){grid-column:2}
+.mod__list li a{color:var(--brand-violet-bright);border-bottom:1px solid var(--line-strong)}
+@media (max-width:1000px){.mod__grid > *:first-child,.mod__grid > *:last-child{grid-column:1 / -1}}
+
+/* ---- product UI mockups --------------------------------------------------
+   Rebuilt in markup rather than screenshotted, so the text is real text and
+   the whole thing survives a theme, a zoom and a screen reader. -------------- */
+.pui{
+  background:var(--bg-surface);border:1px solid var(--hair);border-radius:var(--r-3);
+  box-shadow:0 30px 64px -38px rgba(60,21,83,.45), 0 2px 6px -2px rgba(60,21,83,.10);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.pui__bar{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;
+  background:linear-gradient(180deg, rgba(157,78,221,.10), rgba(157,78,221,.03)), var(--bg-surface);
+  border-bottom:1px solid var(--hair);
+}
+.pui__dots{display:flex;gap:5px;flex:none}
+.pui__dots i{width:8px;height:8px;border-radius:50%;background:var(--hair)}
+.pui__crumb{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.pui__crumb b{color:var(--ink);font-weight:500}
+.pui__who{margin-left:auto;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.pui__body{padding:18px;display:flex;flex-direction:column;gap:14px}
+.pui__row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.pui__h{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.pui__foot{
+  padding:9px 14px;border-top:1px solid var(--hair);background:var(--bg-surface-2);
+  font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.pui__foot b{color:var(--brand-violet-bright);font-weight:500}
+
+/* framework board — Compliance Hub */
+.fwb{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fwb__card{border:1px solid var(--hair);border-radius:var(--r-2);padding:13px;display:flex;flex-direction:column;gap:9px;background:var(--bg-void)}
+.fwb__t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.fwb__t b{font-size:.9rem;color:var(--ink);font-weight:600}
+.fwb__t span{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.fwb__bar{height:3px;border-radius:var(--r-pill);background:var(--bg-raised);position:relative;overflow:hidden}
+.fwb__bar i{position:absolute;inset:0 auto 0 0;border-radius:inherit;background:linear-gradient(90deg,var(--brand-violet-deep),var(--brand-violet))}
+.fwb__meta{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;color:var(--faint);display:flex;gap:10px;flex-wrap:wrap}
+.fwb__meta em{font-style:normal;color:var(--ok)}
+@media (max-width:520px){.fwb{grid-template-columns:1fr}}
+
+/* evidence stream */
+.evs{display:flex;flex-direction:column;gap:4px}
+.evs__row{display:grid;grid-template-columns:76px 1fr auto;gap:10px;align-items:center;padding:7px 10px;border-radius:var(--r-1);background:var(--bg-void);font-family:var(--font-mono);font-size:.66rem}
+.evs__row .src{color:var(--brand-violet-bright);letter-spacing:.06em}
+.evs__row .what{color:var(--ink-2);font-family:var(--font-body);font-size:.8rem}
+.evs__row .st{color:var(--ok);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+
+/* alert queue — MDR */
+.q{display:flex;flex-direction:column;gap:4px}
+.q__row{display:grid;grid-template-columns:46px auto 1fr auto;gap:10px;align-items:center;padding:8px 11px;border-radius:var(--r-1);background:var(--bg-void);font-size:.82rem;color:var(--ink-2)}
+.q__row .tm{font-family:var(--font-mono);font-size:.62rem;color:var(--faint)}
+.q__row .who{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.q__row.is-open{background:rgba(196,29,69,.06)}
+.q__stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.q__stat{display:flex;flex-direction:column;gap:3px}
+.q__stat b{font-family:var(--font-display);font-variation-settings:"wdth" 112;font-size:1.35rem;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.q__stat span{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+@media (max-width:520px){.q__row{grid-template-columns:44px auto 1fr}.q__row .who{display:none}}
+
+/* posture panel — AD Pen-Test */
+.pst{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.pst__score{position:relative;width:104px;height:104px;flex:none}
+.pst__score svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pst__score .trk{fill:none;stroke:var(--bg-raised);stroke-width:8}
+.pst__score .val{fill:none;stroke:var(--brand-violet);stroke-width:8;stroke-linecap:butt}
+.pst__score b{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--font-display);font-variation-settings:"wdth" 112;font-size:1.7rem;font-weight:800;color:var(--ink);
+}
+.pst__rules{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pst__t{text-align:left}
+.pst__rule{display:grid;grid-template-columns:1fr 46px;gap:10px;align-items:center;font-size:.8rem;color:var(--ink-2)}
+.pst__rule i{display:block;height:3px;border-radius:var(--r-pill);background:var(--bg-raised);position:relative;grid-column:1/-1;overflow:hidden}
+.pst__rule i b{position:absolute;inset:0 auto 0 0;border-radius:inherit;background:var(--sev-crit)}
+.pst__rule span{font-family:var(--font-mono);font-size:.64rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.sla{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sla__c{border:1px solid var(--hair);border-radius:var(--r-1);padding:10px 11px;display:flex;flex-direction:column;gap:3px}
+.sla__c b{font-family:var(--font-mono);font-size:.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.sla__c span{font-family:var(--font-mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.sla__c.c b{color:var(--sev-crit)}.sla__c.h b{color:var(--sev-high)}.sla__c.m b{color:var(--sev-med)}.sla__c.l b{color:var(--ok)}
+@media (max-width:420px){.pst{grid-template-columns:1fr}}
+
+/* ---- trust strip -------------------------------------------------------- */
+.tstrip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:var(--r-3);overflow:hidden}
+.tstrip li{background:var(--bg-void);padding:var(--s5);display:flex;flex-direction:column;gap:7px}
+.tstrip b{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-violet-bright)}
+.tstrip span{font-size:.86rem;color:var(--muted);line-height:1.5}
+@media (max-width:860px){.tstrip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.tstrip{grid-template-columns:1fr}}
+
+
+/* ---- the sticky CTA follows this page's ground -------------------------- */
+body.t-lite .mcta{
+  background:rgba(250,248,253,.9);border-top:1px solid var(--line);
+  box-shadow:0 -12px 34px -26px rgba(60,21,83,.7);
+}
+body.t-lite .mcta__call{color:var(--ink);border-color:var(--line-strong)}
