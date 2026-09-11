@@ -324,6 +324,8 @@ main > .section:last-child{padding-bottom:var(--gap-section)}
 .btn:hover::after,.btn:focus-visible::after{transform:none}
 .btn:hover,.btn:focus-visible{color:var(--bg-void);border-color:var(--brand-violet-bright)}
 .btn:active{transform:translateY(1px)}
+.btn i{font-style:normal;font-size:.85em;opacity:.7;margin-left:.35em}
+.tri-acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn--primary{--btn-bg:var(--brand-violet);--btn-line:var(--brand-violet);--btn-fg:#FFFFFF}
 .btn--ghost{--btn-line:var(--hair)}
 .btn--small{min-height:36px;padding:0 14px;font-size:.66rem}
@@ -425,7 +427,7 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
    is a true --ink in both the dark site and the light platform page. The SVG
    stays an external, cached file; the link carries the accessible name. */
 .lockup__word{
-  display:block;flex:none;height:16px;width:calc(16px * 1348 / 256);
+  display:block;flex:none;height:17.75px;width:calc(17.75px * 1348 / 284);
   background:currentColor;color:var(--ink);
   -webkit-mask:url(/aphelion-cyber/assets/img/wordmark.svg) no-repeat center / contain;
   mask:url(/aphelion-cyber/assets/img/wordmark.svg) no-repeat center / contain;
@@ -666,6 +668,20 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
 @media (max-width:900px){.logo-rail{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:480px){.logo-rail{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+/* technology alliances — third-party marks. Deliberately NOT .logo-rail: that
+   rail is the honest client-logo placeholder, and a reader must never mistake a
+   vendor we buy from for a client who hired us. Each mark keeps the ground it
+   was drawn for, baked into the asset, so white-on-dark logos stay legible. */
+.alliances{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s4);margin-top:var(--gap-head);list-style:none;padding:0}
+.alliance{
+  aspect-ratio:5/2;border:1px solid var(--hair);border-radius:var(--r-3);overflow:hidden;
+  transition:transform var(--t2) var(--ease-out),border-color var(--t2),box-shadow var(--t2);
+}
+.alliance img{width:100%;height:100%;object-fit:cover;display:block}
+.alliance:hover{transform:translateY(-2px);border-color:var(--line-strong);box-shadow:0 18px 40px -28px rgba(0,0,0,.9)}
+@media (max-width:900px){.alliances{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.alliances{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* values — the numbered list on /about/ */
 .values{display:flex;flex-direction:column;border-top:1px solid var(--hair)}
 .value{display:grid;grid-template-columns:32px 1fr;gap:var(--s4);padding:var(--s4) 0;border-bottom:1px solid var(--hair)}
@@ -878,7 +894,7 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
 .consto{display:flex;flex-direction:column;gap:var(--s5)}
 .consto__filters{display:flex;gap:8px;flex-wrap:wrap}
 .consto__field{
-  position:relative;aspect-ratio:16/10;min-height:430px;
+  position:relative;aspect-ratio:16/11;min-height:560px;
   border:1px solid var(--hair);border-radius:var(--r-3);background:
     radial-gradient(120% 90% at 12% 8%, rgba(157,78,221,.10), transparent 58%),
     radial-gradient(90% 80% at 92% 96%, rgba(77,216,230,.05), transparent 60%),
@@ -926,8 +942,9 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
 .consto__field[data-cf="detect"] .consto__band:not([data-g="detect"]),
 .consto__field[data-cf="respond"] .consto__band:not([data-g="respond"]){opacity:.3}
 .consto__note{max-width:70ch;font-family:var(--font-body);font-size:var(--fs-1);letter-spacing:0;text-transform:none;color:var(--muted);line-height:1.6;text-wrap:pretty}
-/* below the fold of a phone, the map becomes what it always was: a list */
-@media (max-width:820px){
+/* below desktop the map becomes what it always was: a list — the labels need
+   about 160px of column and there is not room for seven of those under 1040px */
+@media (max-width:1040px){
   .consto__field{aspect-ratio:auto;min-height:0;display:flex;flex-direction:column;gap:2px;padding:14px;background:none;border:0}
   .consto__field::before,.consto__field::after,.consto__lines{display:none}
   .consto__band{position:static;padding:var(--s5) 0 9px;width:auto}
@@ -1267,6 +1284,12 @@ input[type=range].range:hover::-webkit-slider-thumb,input[type=range].range:focu
 .office b{color:var(--ink);font-weight:600}
 .office address{font-style:normal;line-height:1.5;font-size:var(--fs-1)}
 .office .clock{font-family:var(--font-mono);font-size:var(--fs-0);letter-spacing:.1em;color:var(--accent-cyan);font-variant-numeric:tabular-nums}
+.social{display:flex;gap:10px;list-style:none;margin:0;padding:0}
+.social a{
+  display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--hair);border-radius:var(--r-1);
+  color:var(--muted);transition:color var(--t1),border-color var(--t1),background var(--t1);
+}
+.social a:hover,.social a:focus-visible{color:var(--ink);border-color:var(--line-strong);background:var(--violet-tint)}
 .footer__bottom{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;padding-top:var(--s5);font-family:var(--font-mono);font-size:var(--fs-0);letter-spacing:.1em;color:var(--faint)}
 .footer__bottom a{color:var(--faint)}
 .footer__bottom a:hover{color:var(--ink)}

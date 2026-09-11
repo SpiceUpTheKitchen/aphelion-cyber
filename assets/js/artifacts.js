@@ -933,7 +933,7 @@ window.AphArtifacts = (function () {
     tag: 'Routes',
     note: '<b>Nothing is sent from this page</b> · your answers only compose a message in your own mail client',
     foot: 'Hotline +91 70160 88075',
-    defaults: { email: 'secure@aphelioncyber.com', phone: '+917016088075', phoneText: '+91 70160 88075' }
+    defaults: { email: 'secure@aphelioncyber.com', phone: '+917016088075', phoneText: '+91 70160 88075', calendar: 'https://calendar.app.google/K9AS429zPHXiAhWg9' }
   }, function (body, cfg, ctx) {
     var FIRST = [
       'Do not power the machine off. Memory is evidence, and it is gone the moment you do.',
@@ -1004,7 +1004,9 @@ window.AphArtifacts = (function () {
         h('p', { class: 'small', text: 'Forty-five minutes, your environment rather than a slide deck, and a free readiness assessment against the frameworks you are actually being asked for. We reply within one business day.' }),
         h('div', { class: 'tri-form' }, [
           field('Name', nm), field('Organisation', org), field('Work email', em),
-          field('What do you need', nd), field('Message', msg), send
+          field('What do you need', nd), field('Message', msg),
+          h('div', { class: 'tri-acts' }, [send,
+            h('a', { class: 'btn btn--ghost', href: cfg.calendar, target: '_blank', rel: 'noopener', text: 'Or pick a time ↗' })])
         ]),
         h('p', { class: 'tiny', style: 'margin-top:16px', text: 'Prefer to write it yourself: ' + cfg.email + ' · ' + cfg.phoneText })
       ]));
@@ -1032,7 +1034,7 @@ window.AphArtifacts = (function () {
       { k: 'Ahmedabad', t: 'The practice', d: 'Consulting from 203 Shanti Mall, Sattadhar Cross Road: risk management and governance, security architecture, identity and access management, cloud and network security, and incident response.' },
       { k: 'Sharjah', t: 'The second office', d: 'A presence at Sharjah Media City, Al Messaned, Al Bataeh — the same practice, inside the UAE, for clients who need the work delivered locally.' },
       { k: 'AphelioNYX', t: 'The platform', d: 'One sign-on across three modules: Compliance Hub, MDR, and AD Pen-Test — the last of which is air-gapped by design, for environments where outbound traffic is simply not permitted.' },
-      { k: '50+', t: 'Organizations secured', d: 'Across the globe, in finance and banking, healthcare, retail and e-commerce, technology, SaaS, hospitality, manufacturing and pharmaceuticals.' },
+      { k: '100+', t: 'Organizations secured', d: 'Across the globe, in finance and banking, healthcare, retail and e-commerce, technology, SaaS, hospitality, manufacturing and pharmaceuticals.' },
       { k: 'Aphelion', t: 'The far point', d: 'The name is the argument. From the farthest point of an orbit you can see the whole system at once — which is the only vantage from which a security posture makes any sense.' }
     ];
     var NS = 'http://www.w3.org/2000/svg', W = 580, H = 268, OX = 296, OY = 134, RX = 236, RY = 106;
